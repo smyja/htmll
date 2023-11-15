@@ -1,38 +1,30 @@
-const React = window.React;
-const ReactDOM = window.ReactDOM;
+document.addEventListener('DOMContentLoaded', function() {
+  // Create the iframe
+  const iframe = document.createElement('iframe');
+  iframe.src = 'http://localhost:3000/chat'; // Replace with your chat page URL
+  iframe.style.border = 'none';
+  iframe.style.height = '500px'; // Adjust size as needed
+  iframe.style.width = '350px'; // Adjust size as needed
+  iframe.style.position = 'fixed';
+  iframe.style.bottom = '20px';
+  iframe.style.right = '20px';
+  iframe.style.display = 'none'; // Start with the iframe hidden
 
-window.addEventListener('DOMContentLoaded', () => {
-  const script = document.createElement('script');
-  script.src = 'dist/chat-widget.umd.cjs';
-  script.type = 'text/javascript';
+  // Create the toggle button
+  const button = document.createElement('button');
+  button.textContent = 'Chat';
+  button.style.position = 'fixed';
+  button.style.bottom = '20px';
+  button.style.right = '20px';
+  button.style.zIndex = '1000';
 
-  script.onload = () => {
-    console.log('Chat widget script loaded.');
-
-    // Additional debugging: Check if ChatWidget is correctly attached to window
-    console.dir(window.ChatWidget);
-
-    if (window.ChatWidget) {
-      const ChatWidget = window.ChatWidget;
-      console.dir(ChatWidget); // More detailed logging of ChatWidget
-
-      const chatContainer = document.createElement('div');
-      document.body.appendChild(chatContainer);
-
-      // Additional check: Verify that ChatWidget is a valid React component
-      if (React.isValidElement(React.createElement(ChatWidget))) {
-        ReactDOM.render(React.createElement(ChatWidget), chatContainer);
-      } else {
-        console.error('ChatWidget is not a valid React component.');
-      }
-    } else {
-      console.error('ChatWidget is not defined.');
-    }
+  // Toggle function
+  button.onclick = function() {
+    const isIframeOpen = iframe.style.display !== 'none';
+    iframe.style.display = isIframeOpen ? 'none' : 'block';
   };
 
-  script.onerror = () => {
-    console.error('Failed to load chat widget script.');
-  };
-
-  document.head.appendChild(script);
+  // Append the iframe and button to the body
+  document.body.appendChild(iframe);
+  document.body.appendChild(button);
 });
